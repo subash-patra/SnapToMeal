@@ -11,8 +11,8 @@
 import { useState, useRef, useCallback } from 'react'
 import './App.css'
 
-// The URL of our backend server
-const API_URL = 'http://localhost:8000'
+// The URL of our backend server (uses relative path in production on Vercel, or localhost in development)
+const API_URL = import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? 'http://localhost:8000' : '')
 
 // Category emoji mapping for ingredient chips
 const categoryEmoji = {
@@ -91,7 +91,7 @@ function App() {
       formData.append('image', imageFile)
 
       // Send to our backend
-      const response = await fetch(`${API_URL}/extract-ingredients`, {
+      const response = await fetch(`${API_URL}/api/extract-ingredients`, {
         method: 'POST',
         body: formData,
       })
@@ -128,7 +128,7 @@ function App() {
         formData.append('dietary_preferences', dietaryPref.trim())
       }
 
-      const response = await fetch(`${API_URL}/generate-recipes`, {
+      const response = await fetch(`${API_URL}/api/generate-recipes`, {
         method: 'POST',
         body: formData,
       })

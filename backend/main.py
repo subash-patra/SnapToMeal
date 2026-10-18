@@ -149,6 +149,7 @@ async def health_check():
 #   3. Gemini AI "looks" at the photo and identifies all the food
 #   4. We return a structured list of ingredients
 # -------------------------------------------------------------
+@app.post("/api/extract-ingredients", response_model=IngredientExtractionResponse)
 @app.post("/extract-ingredients", response_model=IngredientExtractionResponse)
 async def extract_ingredients(image: UploadFile = File(...)):
     """
@@ -223,6 +224,7 @@ async def extract_ingredients(image: UploadFile = File(...)):
 #      - Gourmet Upgrade (fancy dish, may need 1-2 extra items)
 #   4. We return the recipes with step-by-step instructions
 # -------------------------------------------------------------
+@app.post("/api/generate-recipes", response_model=RecipeResponse)
 @app.post("/generate-recipes", response_model=RecipeResponse)
 async def generate_recipes(
     ingredients: str = Form(..., description="JSON string of validated ingredient names"),
